@@ -330,7 +330,8 @@ Geometria: Λ–τ
 9.4. Wynikowy tekst semicki
 הלך גבול סבב תמיד גלל פגם קול
 To jest semicka projekcja Twojego proto‑tekstu egipskiego.
-dygresja;
+
+## dygresja;
 Oś Deneba (pion krzyża Łabędzia)
 jest równoległa do osi Kochab–ζ UMi (pion krzyża okołobiegunowego).
 
