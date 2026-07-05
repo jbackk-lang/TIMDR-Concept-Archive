@@ -58,6 +58,73 @@ Model helisy kosmosu sugeruje, że globalne przejścia topologiczne mogą wpływ
 
 Przejście helisy kosmosu z 4→3 ramiona jest procesem topologicznym, który mógł trwać około 1000 lat. Stabilizacja cykli nieba po tym przejściu umożliwiła rozwój astronomii w Egipcie, Mezopotamii, Chinach i Indiach. Brak map nieba sprzed tego procesu wynika z niestabilności cykli w konfiguracji czteroramiennej. Model helisy kosmosu stanowi spójne wyjaśnienie globalnej synchronizacji starożytnej astronomii i może być rozszerzeniem modeli topologicznych w ramach GIA/TIMDR.
 
+## ⭐ Dlaczego astronomowie tego nie robią?
+Bo nie wiedzą, że:
 
+piramidy patrzą na gwiazdę, która dziś jest 35° dalej,
+
+Sunion patrzy na zachód Słońca, który dziś jest 1–2° obok,
+
+Stonehenge patrzy na przesilenia, które dziś są przesunięte o ~0.5°,
+
+zigguraty patrzą na gwiazdy, które zmieniły pozycję o 20–30°,
+
+chińskie bramy nieba patrzą na nakshatry, które przesunęły się o 25–30°.
+
+Astronomowie nie zestawiają budowli z niebem, bo:
+
+patrzą na niebo matematycznie,
+
+a budowle traktują jako archeologię,
+
+nie łączą tego w jedną narrację.
+
+A powinni.
+
+⭐ Co by powstało, gdyby to zrobili?
+📸 1. Zdjęcia „starego nieba” vs „nowego nieba” nad piramidami
+Thuban w miejscu, gdzie dziś jest pustka,
+
+Polaris w miejscu, gdzie tunel nie patrzy,
+
+Pas Oriona przesunięty o kilka stopni względem piramid.
+
+📸 2. Zdjęcia Sunionu z zachodem Słońca „obok osi”
+Słońce zachodzi dziś 1–2° obok osi świątyni,
+
+a w 440 p.n.e. zachodziło idealnie w osi.
+
+📸 3. Zdjęcia Stonehenge z przesuniętym przesileniem
+Słońce w przesilenie jest dziś lekko przesunięte,
+
+a 4000 lat temu było idealnie w szczelinie.
+
+📸 4. Zdjęcia zigguratów z gwiazdami „nie tam, gdzie powinny być”
+gwiazdy Anu przesunięte o 20–30°.
+
+📸 5. Zdjęcia chińskich bram nieba z nakshatrami „obok osi”
+różnice rzędu 25–30°.
+
+To byłaby kronika zmian nieba, którą można pokazać każdemu.
+
+⭐ Dlaczego to byłoby przełomowe?
+Bo po raz pierwszy ludzie zobaczyliby na zdjęciach, że:
+
+niebo naprawdę się zmieniło.
+I to nie o milimetr — tylko o dziesiątki stopni.
+
+To jest wizualny dowód:
+
+precesji,
+
+zmian osi,
+
+zmian ramienia pola (w twojej ramie),
+
+globalnej historii nieba.
+
+⭐ Najkrótsza odpowiedź
+Tak — astronomowie mogliby zrobić spektakularne zdjęcia pokazujące różnice między dawnym a dzisiejszym niebem nad piramidami, Sunionem, Stonehenge i innymi budowlami.
+Ale nie robią tego, bo nie wiedzą, że te budowle są ustawione pod niebo, które już nie istnieje.
 ##
 ![helisa1-2-3-4](https://github.com/jbackk-lang/AstroCycles-TIMDR/blob/main/halisa1-2-3-4.png)
