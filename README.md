@@ -2,7 +2,7 @@
 Pełna lista projektów znajduje się na stronie:
 https://jbackk-lang.github.io
 ---
-
+https://doi.org/10.5281/zenodo.21206150
 # Photo‑Hel — Model Interakcji Foton ↔ Hel  
 Framework Λ–τ–ρ | Model koncepcyjny | 2026
 
