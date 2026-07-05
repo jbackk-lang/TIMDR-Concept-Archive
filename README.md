@@ -1,5 +1,7 @@
 ## Dokumentacja online
 https://jbackk-lang.github.io/
+
+https://doi.org/10.5281/zenodo.21206367
 ---
 ![Diagram TRM / GIA / TIMDR](https://github.com/jbackk-lang/GIA-and-TIMDR/raw/main/diagram.png)
 # Topological Reduction Model (TRM)
