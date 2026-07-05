@@ -57,3 +57,7 @@ Model helisy kosmosu sugeruje, że globalne przejścia topologiczne mogą wpływ
 6. Podsumowanie
 
 Przejście helisy kosmosu z 4→3 ramiona jest procesem topologicznym, który mógł trwać około 1000 lat. Stabilizacja cykli nieba po tym przejściu umożliwiła rozwój astronomii w Egipcie, Mezopotamii, Chinach i Indiach. Brak map nieba sprzed tego procesu wynika z niestabilności cykli w konfiguracji czteroramiennej. Model helisy kosmosu stanowi spójne wyjaśnienie globalnej synchronizacji starożytnej astronomii i może być rozszerzeniem modeli topologicznych w ramach GIA/TIMDR.
+
+
+##
+![helisa1-2-3-4](https://github.com/jbackk-lang/AstroCycles-TIMDR/blob/main/halisa1-2-3-4.png)
