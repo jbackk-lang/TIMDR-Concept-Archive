@@ -6,6 +6,12 @@ https://doi.org/10.5281/zenodo.21206367
 ![Diagram TRM / GIA / TIMDR](https://github.com/jbackk-lang/GIA-and-TIMDR/raw/main/diagram.png)
 # Topological Reduction Model (TRM)
 
+> **Uwaga: to jest model koncepcyjny / narzędzie do myślenia, nie teoria naukowa ani model empiryczny.**
+> Poniższy opis nie przedstawia ustalonej, zweryfikowanej fizyki, biologii ani historii — to autorska metafora
+> służąca do analizy struktur. Nie należy tego traktować jako dowodu na to, jak faktycznie zbudowana jest
+> rzeczywistość, ani jako publikacji naukowej w rozumieniu peer review.
+
+
 Model opisuje, jak fale topologiczne powstają w strukturze Möbius‑X, przechodzą między pasmami, redukują złożoność ρ, zmieniają skręt τ i wywołują skokowe przejścia ΔS w biosferze, geologii, polu magnetycznym i kosmosie.
 
 ---
