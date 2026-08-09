@@ -1,5 +1,11 @@
 # FUNDAMENTAL-ELECTRON-DUALITY
 
+> **Uwaga: to jest model koncepcyjny / narzędzie do myślenia, nie teoria naukowa ani model empiryczny.**
+> Poniższy opis nie przedstawia ustalonej, zweryfikowanej fizyki, biologii ani historii — to autorska metafora
+> służąca do analizy struktur. Nie należy tego traktować jako dowodu na to, jak faktycznie zbudowana jest
+> rzeczywistość, ani jako publikacji naukowej w rozumieniu peer review.
+
+
 https://doi.org/10.5281/zenodo.21158768
 
 Model elektronu jako dwuwarstwowego stanu pola (O/S). 
