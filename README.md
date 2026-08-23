@@ -1,9 +1,63 @@
-# TIMDR-Quantum-Lattice — rdzeń wariantu B (zwalidowany)
+# TIMDR-Quantum-Lattice
 
-Podsumowanie ścieżki od `TIMDRQuantumLattice` (kwantowo brzmiący, ale
-niezwalidowany szkic) do zweryfikowanego rdzenia z dwoma przetestowanymi
-celami predykcyjnymi. Zero danych "na wiarę" — każda liczba niżej pochodzi
-z testu, który da się odtworzyć (kod w tym samym folderze).
+## Co to jest
+
+Siatka 10×10 komórek, z których każda ma fazę (liczbę na okręgu, `[0,2π)`).
+W każdym kroku fazy ewoluują wg trzech reguł ("operatorów"): **helisa**
+ciągnie fazę komórki w stronę jakiejś równowagi, **rezonans** sprzęga ją z
+sąsiadami, **defekt** mierzy, jak bardzo komórka jest "niestabilna" w danym
+momencie. To model klasycznych sprzężonych oscylatorów fazowych (rodzina
+Kuramoto) — mimo nazwy w projekcie nie ma nic kwantowego (brak wektora
+stanu, zespolonej amplitudy, unitarnej ewolucji, pomiaru, splątania);
+nazwy "kubit"/"dekoherencja"/"splątanie" są tu kosmetyczne.
+
+### Czy to może być model pola kwantowego (zamiast mechaniki kwantowej)?
+
+Nie — to osobna, równie konkretna rzecz, i tu też jej nie ma. Kwantyzacja
+pola (to, co odróżnia pole kwantowe od klasycznego) wymaga którejś z tych
+rzeczy: pole i jego pęd sprzężony podniesione do operatorów ze związkiem
+komutacyjnym `[φ,π]=iħ`, albo sformułowania przez całkę po trajektoriach z
+działaniem i `ħ` w wykładniczej, albo operatorów kreacji/anihilacji dla
+modów pola, albo fluktuacji o amplitudzie wyznaczonej przez `ħ` i
+temperaturę (twierdzenie fluktuacyjno-dysypacyjne), nie przez dowolnie
+ustawialną stałą. W tym kodzie nie ma `ħ`, nie ma operatorów, nie ma
+przestrzeni Hilberta — `noise=0.001` to zwykła, swobodnie dobrana stała,
+nie coś wymuszone przez fizykę kwantową. To ten sam brak co przy
+"mechanice kwantowej": nie chodzi o pomylenie QM z QFT, tylko o to, że
+żadne z nich się tu nie stosuje, bo brakuje samej kwantyzacji, nie
+konkretnego jej wariantu.
+
+To, co faktycznie jest prawdą: to jest **klasyczne pole** na siatce —
+`φ(x,y,t)`, wielkość zdefiniowana w każdym punkcie siatki i w czasie, z
+lokalną dynamiką i sprzężeniem do sąsiadów (`resonance_operator` to w
+praktyce dyskretny odpowiednik gradientu/laplasjanu). To uczciwy opis,
+dokładnie tak opisuje się modele typu XY/Kuramoto w fizyce — "klasyczna
+teoria pola na sieci", nie metafora. Różnica jest w jednym słowie: pole,
+tak; kwantowe, nie.
+
+## Do czego to służy
+
+Pytanie, które ten projekt testuje: **czy z bieżącego stanu siatki da się
+coś realnie przewidzieć o jej przyszłości** — konkretnie, czy wielkość
+`Ω(t)` (zbudowana z defektu i/lub rezonansu) trafnie wskazuje, które
+komórki będą "gorące" (wysoki defekt) chwilę później, albo kiedy dana
+komórka się ustabilizuje. To nie jest teoretyczna ciekawostka — to test
+tego samego pytania, które przewija się przez całą rodzinę projektów
+TIMDR (sejsmika, finanse): **czy skomplikowanie brzmiąca wielkość faktycznie
+przewiduje przyszłość, czy tylko opisuje teraźniejszość**. Tutaj odpowiedź
+wyszła w dwóch etapach: pierwsza wersja `Ω` nie przewidywała nic (bo cała
+siatka kolapsowała do jednego punktu, więc nie było czego przewidywać);
+po naprawie tego kolapsu druga wersja `Ω` już przewiduje — ale tylko jako
+zwykły defekt, ewentualnie z dołożonym tempem zmiany, **bez** rezonansu
+(patrz sekcje niżej).
+
+## Jak czytać ten dokument
+
+Poniżej jest podsumowanie ścieżki od `TIMDRQuantumLattice` (kwantowo
+brzmiący, ale niezwalidowany szkic) do zweryfikowanego rdzenia z dwoma
+przetestowanymi celami predykcyjnymi. Zero danych "na wiarę" — każda
+liczba niżej pochodzi z testu, który da się odtworzyć (kod w tym samym
+folderze, patrz sekcja "Uruchomienie").
 
 ## Co się nie udało po drodze (i dlaczego to ważne)
 
