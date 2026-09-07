@@ -40,10 +40,37 @@ TIMDERA jest społecznym protokołem informacyjnym, który umożliwia kodowanie 
 Bez znajomości algorytmu i wartości `seed`, surowy wynik wygląda jak nieuporządkowane dane, więc proste wyszukiwanie słów kluczowych na samym zakodowanym sygnale nie zadziała wprost. To NIE jest jednak dowód odporności na wykrycie czy cenzurę: schemat kodowania jest publicznie znany (ten kod źródłowy), przestrzeń kluczy jest bardzo mała, a platforma może wykryć sam fakt używania tego formatu albo złamać kodowanie brute-force'em praktycznie natychmiast.
 
 ## Struktura modułu
-/timdera_protocol/
+/timdera_protocol/              — koder/dekoder wiadomości (opisany wyżej)
     timdera_core.py
     timdera_key.py
     timdera_layers.py
     timdera_encoder.py
     timdera_decoder.py
     timdera_rhythm.py
+/timdr_sygnaly_spoleczne/       — CELOWO PUSTY: zarezerwowane miejsce na
+    __init__.py                  osobny, przyszły moduł wykrywania wzorców
+                                  w zachowaniach społecznych (anomalia/
+                                  defekt/rezonans/skręt) - patrz docstring
+                                  w __init__.py. To NIE jest część kodera i
+                                  celowo nigdy nie importuje `timdera_protocol`.
+/tests/
+    test_timdera_roundtrip.py   — testy round-trip kodera (dodane; wcześniej
+                                  repo nie miało żadnych testów)
+
+## Status naprawy (audyt)
+
+- **NAPRAWIONE**: `TIMDERRhythm` (krok "moduluje rytmem" / "demoduluje rytm"
+  z sekcji "Działanie protokołu" wyżej) była wcześniej martwym kodem -
+  `TIMDERCore.encode()`/`decode()` jej w ogóle nie wywoływały, mimo że
+  README opisywało ten krok. `TIMDERCore.attach_rhythm()` (opcjonalne, nie
+  łamie wstecznej kompatybilności) włącza pełną, poprawnie odwracalną
+  ścieżkę 4-krokową.
+- **DODANE**: pierwsze testy w repo (`tests/test_timdera_roundtrip.py`) -
+  round-trip z i bez rytmu, w tym test wprost sprawdzający, że różna
+  historia rytmu daje różne zakodowane bajty (regresja przeciw poprzedniemu
+  martwemu kodowi).
+- **DOPRECYZOWANE**: warstwy Λ–τ–ρ (`timdera_layers.py`) to trzy proste,
+  odwracalne operacje arytmetyczne, nie realna struktura geometryczna czy
+  operator torsji w znaczeniu innych repozytoriów TIMDR - dopisany uczciwy
+  komentarz w kodzie, żeby nazwa nie sugerowała więcej, niż kod faktycznie
+  robi.
