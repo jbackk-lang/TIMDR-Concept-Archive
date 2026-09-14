@@ -1,0 +1,71 @@
+<svg width="900" height="700" viewBox="0 0 900 700" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Tytuł -->
+  <text x="450" y="50" font-size="26" text-anchor="middle" font-family="Arial" fill="#222">
+    Topologiczny model He → Fe → Og (taśma Möbiusa)
+  </text>
+
+  <!-- Taśma (pętla) -->
+  <path d="M150,350
+           C150,150 750,150 750,350
+           C750,550 150,550 150,350
+           Z"
+        fill="#f5f5f5" stroke="#444" stroke-width="2" opacity="0.9"/>
+
+  <!-- Segment He → Fe (materia narastająca) -->
+  <path d="M180,340
+           C180,200 720,200 720,340"
+        stroke="#0077aa" stroke-width="6" fill="none" marker-end="url(#arrowBlue)"/>
+  <text x="200" y="220" font-size="16" font-family="Arial" fill="#0077aa">
+    orientacja dodatnia (He → Fe)
+  </text>
+
+  <!-- Segment Fe → Og (materia rozpadająca się) -->
+  <path d="M720,360
+           C720,500 180,500 180,360"
+        stroke="#bb0000" stroke-width="6" fill="none" marker-end="url(#arrowRed)"/>
+  <text x="650" y="520" font-size="16" font-family="Arial" fill="#bb0000" text-anchor="end">
+    orientacja ujemna (Fe → Og)
+  </text>
+
+  <!-- Skręt 1 – He -->
+  <circle cx="180" cy="340" r="26" fill="#d0f0ff" stroke="#0077aa" stroke-width="3"/>
+  <text x="180" y="345" font-size="18" text-anchor="middle" font-family="Arial" fill="#003344">He</text>
+  <text x="180" y="370" font-size="12" text-anchor="middle" font-family="Arial" fill="#003344">
+    skręt 1 – wejście
+  </text>
+
+  <!-- Skręt 2 – Fe -->
+  <circle cx="450" cy="200" r="26" fill="#ffe9c4" stroke="#cc8800" stroke-width="3"/>
+  <text x="450" y="205" font-size="18" text-anchor="middle" font-family="Arial" fill="#663300">Fe</text>
+  <text x="450" y="230" font-size="12" text-anchor="middle" font-family="Arial" fill="#663300">
+    skręt 2 – maksimum
+  </text>
+
+  <!-- Skręt 3 – Og -->
+  <circle cx="720" cy="360" r="26" fill="#ffd6d6" stroke="#bb0000" stroke-width="3"/>
+  <text x="720" y="365" font-size="18" text-anchor="middle" font-family="Arial" fill="#660000">Og</text>
+  <text x="720" y="390" font-size="12" text-anchor="middle" font-family="Arial" fill="#660000">
+    skręt 3 – wyjście
+  </text>
+
+  <!-- Opisy globalne -->
+  <text x="450" y="120" font-size="14" text-anchor="middle" font-family="Arial" fill="#444">
+    taśma Möbiusa – materia jako pętla z trzema punktami skrętu
+  </text>
+
+  <text x="150" y="610" font-size="14" font-family="Arial" fill="#444">
+    każdy pierwiastek Z leży na tej taśmie jako punkt przejścia między skrętami
+  </text>
+
+  <!-- Markery strzałek -->
+  <defs>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#0077aa"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#bb0000"/>
+    </marker>
+  </defs>
+
+</svg>
