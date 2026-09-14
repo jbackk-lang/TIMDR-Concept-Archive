@@ -1,0 +1,57 @@
+<svg width="900" height="700" viewBox="0 0 900 700" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Tytuł -->
+  <text x="450" y="50" font-size="28" text-anchor="middle" font-family="Arial" fill="#222">
+    Trzy skręty Möbiusa – model He → Fe → Og
+  </text>
+
+  <!-- Skręt 1 – Hel -->
+  <circle cx="450" cy="150" r="40" fill="#d0f0ff" stroke="#0077aa" stroke-width="3"/>
+  <text x="450" y="155" font-size="22" text-anchor="middle" font-family="Arial" fill="#003344">He</text>
+  <text x="450" y="185" font-size="14" text-anchor="middle" font-family="Arial" fill="#003344">
+    Skręt 1 – wejście do materii
+  </text>
+
+  <!-- Strzałka He → Fe -->
+  <line x1="450" y1="200" x2="450" y2="300" stroke="#0077aa" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <!-- Skręt 2 – Fe -->
+  <circle cx="450" cy="350" r="40" fill="#ffe9c4" stroke="#cc8800" stroke-width="3"/>
+  <text x="450" y="355" font-size="22" text-anchor="middle" font-family="Arial" fill="#663300">Fe</text>
+  <text x="450" y="385" font-size="14" text-anchor="middle" font-family="Arial" fill="#663300">
+    Skręt 2 – maksimum stabilności
+  </text>
+
+  <!-- Strzałka Fe → Og -->
+  <line x1="450" y1="400" x2="450" y2="500" stroke="#cc8800" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <!-- Skręt 3 – Og -->
+  <circle cx="450" cy="550" r="40" fill="#ffd6d6" stroke="#bb0000" stroke-width="3"/>
+  <text x="450" y="555" font-size="22" text-anchor="middle" font-family="Arial" fill="#660000">Og</text>
+  <text x="450" y="585" font-size="14" text-anchor="middle" font-family="Arial" fill="#660000">
+    Skręt 3 – wyjście z materii
+  </text>
+
+  <!-- Opisy boczne -->
+  <text x="150" y="250" font-size="18" text-anchor="middle" font-family="Arial" fill="#004466">
+    Materia narastająca
+  </text>
+  <text x="150" y="275" font-size="14" text-anchor="middle" font-family="Arial" fill="#004466">
+    (He → Fe)
+  </text>
+
+  <text x="150" y="450" font-size="18" text-anchor="middle" font-family="Arial" fill="#661111">
+    Materia rozpadająca się
+  </text>
+  <text x="150" y="475" font-size="14" text-anchor="middle" font-family="Arial" fill="#661111">
+    (Fe → Og)
+  </text>
+
+  <!-- Definicja markera strzałki -->
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#333"/>
+    </marker>
+  </defs>
+
+</svg>
