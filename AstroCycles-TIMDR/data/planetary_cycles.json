@@ -1,0 +1,40 @@
+{
+  "cycles": [
+    {
+      "planet": "Mercury",
+      "synodic_period_days": 116,
+      "orbital_period_days": 88,
+      "harmonic_level": 1
+    },
+    {
+      "planet": "Venus",
+      "synodic_period_days": 584,
+      "orbital_period_days": 225,
+      "harmonic_level": 1
+    },
+    {
+      "planet": "Earth",
+      "synodic_period_days": 365,
+      "orbital_period_days": 365,
+      "harmonic_level": 1
+    },
+    {
+      "planet": "Mars",
+      "synodic_period_days": 780,
+      "orbital_period_days": 687,
+      "harmonic_level": 2
+    },
+    {
+      "planet": "Jupiter",
+      "synodic_period_days": 399,
+      "orbital_period_days": 4333,
+      "harmonic_level": 3
+    },
+    {
+      "planet": "Saturn",
+      "synodic_period_days": 378,
+      "orbital_period_days": 10759,
+      "harmonic_level": 3
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "aspects": [
+    {
+      "name": "Conjunction",
+      "angle_degrees": 0,
+      "harmonic_ratio": "1:1",
+      "strength": 1.0
+    },
+    {
+      "name": "Opposition",
+      "angle_degrees": 180,
+      "harmonic_ratio": "1:2",
+      "strength": 0.9
+    },
+    {
+      "name": "Trine",
+      "angle_degrees": 120,
+      "harmonic_ratio": "1:3",
+      "strength": 0.8
+    },
+    {
+      "name": "Square",
+      "angle_degrees": 90,
+      "harmonic_ratio": "1:4",
+      "strength": 0.7
+    },
+    {
+      "name": "Sextile",
+      "angle_degrees": 60,
+      "harmonic_ratio": "1:6",
+      "strength": 0.6
+    }
+  ]
+}
