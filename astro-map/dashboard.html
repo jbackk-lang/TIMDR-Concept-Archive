@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard Geometrii Pola & Repozytoria jbackk-lang</title>
+<style>
+    :root {
+        --bg-color: #0d0d11;
+        --panel-bg: #16161f;
+        --accent-blue: #4ea3ff;
+        --accent-gold: #ecc94b;
+        --accent-purple: #9f7aea;
+        --text-color: #eee;
+        --text-muted: #a0aec0;
+    }
+
+    body { 
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; 
+        background: var(--bg-color); 
+        color: var(--text-color); 
+        padding: 20px; 
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    h1, h2 {
+        font-weight: 600;
+        letter-spacing: -0.5px;
+    }
+
+    h1 {
+        color: #fff;
+        border-bottom: 1px solid #2d3748;
+        padding-bottom: 10px;
+        margin-top: 0;
+    }
+
+    a { color: var(--accent-blue); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: #fff; }
+
+    /* Układ dwukolumnowy dla dużych ekranów */
+    .dashboard-container {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+        margin-top: 20px;
+    }
+
+    @media (min-width: 1024px) {
+        .dashboard-container {
+            flex-direction: row;
+            align-items: flex-start;
+        }
+    }
+
+    /* Panel Symulacji */
+    .simulation-panel {
+        flex: 1.4;
+        background: var(--panel-bg);
+        padding: 20px;
+        border-radius: 8px;
+        border: 1px solid #2d3748;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+
+    #canvas-container {
+        position: relative;
+        width: 100%;
+        background: #000;
+        border-radius: 6px;
+        overflow: hidden;
+        margin-bottom: 15px;
+        border: 1px solid #232d3f;
+    }
+
+    canvas {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+
+    .controls {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    @media (min-width: 640px) {
+        .controls {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+    }
+
+    .control-group {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .control-group label {
+        font-size: 12px;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    input[type=range] {
+        width: 100%;
+        background: #2d3748;
+        accent-color: var(--accent-blue);
+        cursor: pointer;
+    }
+
+    /* Sekcja Telemetrii */
+    .telemetry-board {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 10px;
+        background: #09090d;
+        padding: 12px;
+        border-radius: 6px;
+        border: 1px solid #232d3f;
+    }
+
+    .telemetry-item {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .telemetry-label {
+        font-size: 11px;
+        color: var(--text-muted);
+    }
+
+    .telemetry-value {
+        font-family: "Courier New", Courier, monospace;
+        font-size: 16px;
+        font-weight: bold;
+        color: #fff;
+        margin-top: 2px;
+    }
+
+    /* Lista Repozytoriów */
+    .repos-panel {
+        flex: 1;
+        background: var(--panel-bg);
+        padding: 20px;
+        border-radius: 8px;
+        border: 1px solid #2d3748;
+        max-height: 85vh;
+        overflow-y: auto;
+    }
+
+    .repo { 
+        margin-bottom: 12px; 
+        padding: 12px; 
+        background: rgba(255, 255, 255, 0.03); 
+        border-radius: 6px; 
+        border-left: 3px solid var(--accent-purple);
+        transition: transform 0.2s, background 0.2s;
+    }
+
+    .repo:hover {
+        transform: translateX(3px);
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .repo-desc {
+        font-size: 13px;
+        color: var(--text-muted);
+        margin: 5px 0;
+    }
+
+    .repo-stats {
+        font-size: 12px;
+        color: #718096;
+    }
+
+    /* Custom scrollbar dla panelu repo */
+    .repos-panel::-webkit-scrollbar {
+        width: 6px;
+    }
+    .repos-panel::-webkit-scrollbar-track {
+        background: var(--panel-bg);
+    }
+    .repos-panel::-webkit-scrollbar-thumb {
+        background: #2d3748;
+        border-radius: 3px;
+    }
+</style>
+</head>
+<body>
+
+<h1>Zintegrowany Panel Badawczy: jbackk-lang</h1>
+
+<div class="dashboard-container">
+    
+    <!-- LEWA KOLUMNA: SYMULATOR MATRYCY HELISY (NGC 7075) -->
+    <div class="simulation-panel">
+        <h2>Matryca Potrójnej Helisy: Sektor NGC 7075</h2>
+        <p style="font-size: 14px; color: var(--text-muted); margin-top: -5px; margin-bottom: 15px;">
+            Wizualizacja sprzężenia skalarnego geometrii pola. Sygnał helu określa punkt zwrotny rezonansu układu.
+        </p>
+        
+        <div id="canvas-container">
+            <canvas id="fieldCanvas" width="700" height="400"></canvas>
+        </div>
+        
+        <div class="controls">
+            <div class="control-group">
+                <label for="scaleSlider">Skala Przejścia (Makro-Kwant)</label>
+                <input type="range" id="scaleSlider" min="0.2" max="2.5" step="0.01" value="1.0">
+            </div>
+            <div class="control-group">
+                <label for="phaseSlider">Kąt Rotacji Fazy</label>
+                <input type="range" id="phaseSlider" min="0" max="360" step="1" value="0">
+            </div>
+            <div class="control-group">
+                <label for="freqSlider">Rezonans Helu (Tuning)</label>
+                <input type="range" id="freqSlider" min="0.5" max="3.0" step="0.01" value="1.5">
+            </div>
+        </div>
+        
+        <div class="telemetry-board">
+            <div class="telemetry-item">
+                <span class="telemetry-label">Zbieżność Pól</span>
+                <span class="telemetry-value" id="valMatch">0.00%</span>
+            </div>
+            <div class="telemetry-item">
+                <span class="telemetry-label">Wektor Pędu (Asym.)</span>
+                <span class="telemetry-value" id="valMomentum">0.0000</span>
+            </div>
+            <div class="telemetry-item">
+                <span class="telemetry-label">Efektywność Energii</span>
+                <span class="telemetry-value" id="valEfficiency">0.00%</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- PRAWA KOLUMNA: REPOZYTORIA GIT -->
+    <div class="repos-panel">
+        <h2>Repozytoria Git</h2>
+        <div id="repos">Ładowanie repozytoriów z serwerów GitHub...</div>
+    </div>
+
+</div>
+
+<script>
+    // --- CZĘŚĆ 1: POBIERANIE REPOZYTORIÓW Z GITHUB API ---
+    fetch("https://api.github.com/users/jbackk-lang/repos?per_page=200")
+      .then(r => r.json())
+      .then(data => {
+        let html = "";
+        if(data && data.length > 0) {
+            // Sortowanie po gwiazdkach lub datach aktualizacji, jeśli chcesz, domyślnie alfabetycznie z API
+            data.forEach(repo => {
+              html += `
+                <div class="repo">
+                  <a href="${repo.html_url}" target="_blank"><b>${repo.name}</b></a>
+                  <div class="repo-desc">${repo.description || "Brak opisu struktury geometrycznej."}</div>
+                  <div class="repo-stats">⭐ ${repo.stargazers_count} | 🍴 ${repo.forks_count}</div>
+                </div>
+              `;
+            });
+        } else {
+            html = "Nie znaleziono publicznych repozytoriów.";
+        }
+        document.getElementById("repos").innerHTML = html;
+      })
+      .catch(err => {
+          document.getElementById("repos").innerHTML = "<span style='color:#e53e3e;'>Błąd podczas komunikacji z API GitHub.</span>";
+      });
+
+
+    // --- CZĘŚĆ 2: INTERAKTYWNY SILNIK SYMULACJI GEOMETRII POLA ---
+    const canvas = document.getElementById('fieldCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Pobranie kontrolek
+    const scaleSlider = document.getElementById('scaleSlider');
+    const phaseSlider = document.getElementById('phaseSlider');
+    const freqSlider = document.getElementById('freqSlider');
+    
+    // Pola telemetryczne
+    const valMatch = document.getElementById('valMatch');
+    const valMomentum = document.getElementById('valMomentum');
+    const valEfficiency = document.getElementById('valEfficiency');
+
+    let animationFrameId;
+    let baseTime = 0;
+
+    // Funkcja rysująca i obliczająca stan pola
+    function renderSimulation() {
+        baseTime += 0.02;
+        
+        // Czyszczenie ekranu z lekkim efektem smugi (trail effect)
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        
+        // Odczyt aktualnych parametrów z suwaków
+        const scale = parseFloat(scaleSlider.value);
+        const inputPhase = parseFloat(phaseSlider.value) * (Math.PI / 180);
+        const heliumFreq = parseFloat(freqSlider.value);
+        
+        // --- OBLICZENIA TELEMETRII (Matematyczny model sprzężenia z Twoich założeń) ---
+        // Idealny punkt rezonansu dla helu przypada na częstotliwość 1.88 i odpowiednie zsynchronizowanie fazy
+        const targetFreq = 1.88;
+        const freqDiff = Math.abs(heliumFreq - targetFreq);
+        
+        // Dopasowanie matrycy (Zbieżność pól)
+        const matchPercentage = Math.max(0, 100 - (freqDiff * 45) - (Math.abs(Math.sin(inputPhase - 0.5)) * 10));
+        
+        // Wektor asymetrycznego pędu (zależny od przesunięcia fazowego, skali oraz częstotliwości)
+        const asymmetricMomentum = Math.sin(inputPhase + baseTime * 0.5) * scale * (heliumFreq / 1.5);
+        
+        // Efektywność retencji energii (maksymalna w punkcie zwrotnym rezonansu)
+        const energyEfficiency = Math.max(0, matchPercentage * 0.98 + (Math.cos(baseTime * 0.1) * 1.5));
+
+        // Aktualizacja widoku telemetrii
+        valMatch.innerText = matchPercentage.toFixed(2) + "%";
+        valMomentum.innerText = (asymmetricMomentum >= 0 ? "+" : "") + asymmetricMomentum.toFixed(4);
+        valEfficiency.innerText = energyEfficiency.toFixed(2) + "%";
+        
+        // --- WIZUALIZACJA: RDZEŃ MAKRO (NGC 7075 jako Atraktor) ---
+        const coreRadius = 35 * scale;
+        const gradient = ctx.createRadialGradient(centerX, centerY, 2, centerX, centerY, coreRadius * 2);
+        gradient.addColorStop(0, '#fff');
+        gradient.addColorStop(0.2, 'rgba(78, 163, 255, 0.8)');
+        gradient.addColorStop(0.6, 'rgba(159, 122, 234, 0.2)');
+        gradient.addColorStop(1, 'transparent');
+        
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, coreRadius * 2, 0, Math.PI * 2);
+        ctx.fillStyle = gradient;
+        ctx.fill();
+
+        // Strefa rezonansowa helu (Złoty okrąg punktu zwrotnego)
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, 110 * scale, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(236, 201, 75, ${0.1 + (matchPercentage / 150)})`;
+        ctx.lineWidth = 2;
+        ctx.setLineDash([5, 10]);
+        ctx.stroke();
+        ctx.setLineDash([]); // reset
+
+        // --- WIZUALIZACJA: POTRÓJNA HELISA (Rysowanie 3 splecionych linii sił pola) ---
+        const helixColors = ['#4ea3ff', '#ecc94b', '#9f7aea']; // Niebieski, Złoty, Purpurowy
+        const totalPoints = 160;
+        
+        for (let h = 0; h < 3; h++) {
+            // Przesunięcie o 120 stopni (2*PI / 3) dla każdej nici potrójnej helisy
+            const strandOffset = h * (2 * Math.PI / 3) + inputPhase;
+            
+            ctx.beginPath();
+            ctx.strokeStyle = helixColors[h];
+            ctx.lineWidth = (h === 1 && matchPercentage > 85) ? 3 : 1.5; // pogrubienie nici rezonansowej helu
+            
+            for (let i = 0; i < totalPoints; i++) {
+                // Konwersja do układu biegunowego rozwijającego się na zewnątrz (od jądra)
+                const t = (i / totalPoints) * Math.PI * 4; // obroty wokół centrum
+                const radius = (coreRadius + (i * 1.5)) * scale;
+                
+                // Modulacja fali helisy w oparciu o wybraną częstotliwość rezonansu helu i czas
+                const wave = Math.sin(t * heliumFreq - baseTime + strandOffset) * (15 * scale);
+                
+                // Pozycja X i Y
+                const angle = t + baseTime * 0.1;
+                const x = centerX + (radius + wave) * Math.cos(angle);
+                const y = centerY + (radius + wave) * Math.sin(angle);
+                
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            }
+            ctx.stroke();
+        }
+        
+        // Znacznik punktu rezonansu w telemetrii wizualnej (pulsujące fotony)
+        if (matchPercentage > 75) {
+            ctx.beginPath();
+            ctx.arc(centerX + Math.cos(baseTime)*110*scale, centerY + Math.sin(baseTime)*110*scale, 4, 0, Math.PI*2);
+            ctx.fillStyle = '#fff';
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = '#ecc94b';
+            ctx.fill();
+            ctx.shadowBlur = 0; // reset
+        }
+
+        animationFrameId = requestAnimationFrame(renderSimulation);
+    }
+
+    // Uruchomienie pętli rysującej
+    renderSimulation();
+
+    // Obsługa zmiany rozmiaru okna, by dopasować canvas jeśli trzeba
+    window.addEventListener('resize', () => {
+        // Canvas automatycznie skaluje się za pomocą CSS, zachowując proporcje 700x400
+    });
+</script>
+
+</body>
+</html>

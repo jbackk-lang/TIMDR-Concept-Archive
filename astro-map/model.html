@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Tetroida – WebGL</title>
+<style>
+  body { margin: 0; overflow: hidden; background: #000; }
+  #info {
+    position: absolute; top: 10px; left: 10px;
+    color: #fff; font-family: sans-serif; font-size: 14px;
+    background: rgba(0,0,0,0.5); padding: 8px 12px; border-radius: 6px;
+  }
+</style>
+</head>
+<body>
+<div id="info">Obracaj myszą – Tetroida na torusie (FAI / TIMDR)</div>
+<canvas id="scene"></canvas>
+
+<script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+<script src="https://unpkg.com/three@0.160.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+  const canvas = document.getElementById('scene');
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(window.devicePixelRatio);
+
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x000000);
+
+  const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+  camera.position.set(3, 3, 4);
+
+  const controls = new THREE.OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+
+  const light = new THREE.PointLight(0xffffff, 1.2);
+  light.position.set(5, 5, 5);
+  scene.add(light);
+  scene.add(new THREE.AmbientLight(0x404040));
+
+  // Torus – „halo”
+  const torusGeom = new THREE.TorusGeometry(1.5, 0.35, 32, 96);
+  const torusMat = new THREE.MeshPhongMaterial({
+    color: 0x2288ff,
+    emissive: 0x001020,
+    shininess: 80,
+    wireframe: false
+  });
+  const torus = new THREE.Mesh(torusGeom, torusMat);
+  scene.add(torus);
+
+  // Tetroida – 3 pętle (przybliżenie)
+  const tetroidGroup = new THREE.Group();
+  const loopMat = new THREE.MeshPhongMaterial({ color: 0xff5533, emissive: 0x200000 });
+
+  function makeLoop(angle) {
+    const g = new THREE.TorusKnotGeometry(0.7, 0.12, 128, 32, 2, 3);
+    const m = new THREE.Mesh(g, loopMat);
+    m.rotation.z = angle;
+    return m;
+  }
+
+  tetroidGroup.add(makeLoop(0));
+  tetroidGroup.add(makeLoop((2 * Math.PI) / 3));
+  tetroidGroup.add(makeLoop((4 * Math.PI) / 3));
+  scene.add(tetroidGroup);
+
+  function onResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  }
+  window.addEventListener('resize', onResize);
+
+  function animate() {
+    requestAnimationFrame(animate);
+    tetroidGroup.rotation.y += 0.003;
+    torus.rotation.x += 0.0015;
+    controls.update();
+    renderer.render(scene, camera);
+  }
+  animate();
+</script>
+</body>
+</html>

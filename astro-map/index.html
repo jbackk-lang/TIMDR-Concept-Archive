@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>ASTRO-MAP – Interferencja 2MASS + ROSAT</title>
+<style>
+  body {
+    font-family: "Segoe UI", sans-serif;
+    background: #0d0d0d;
+    color: #e6e6e6;
+    margin: 0;
+    padding: 0;
+  }
+  header {
+    background: #1a1a1a;
+    padding: 25px;
+    text-align: center;
+    border-bottom: 2px solid #333;
+  }
+  header h1 {
+    margin: 0;
+    font-size: 2.2em;
+    color: #6cf;
+  }
+  header p {
+    margin: 8px 0 0;
+    font-size: 1.1em;
+    color: #aaa;
+  }
+  section {
+    padding: 30px;
+    max-width: 900px;
+    margin: auto;
+  }
+  section h2 {
+    color: #6cf;
+    border-bottom: 1px solid #333;
+    padding-bottom: 6px;
+  }
+  p {
+    line-height: 1.6;
+    font-size: 1.05em;
+  }
+  img {
+    display: block;
+    margin: 25px auto;
+    max-width: 95%;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.6);
+  }
+  footer {
+    background: #1a1a1a;
+    text-align: center;
+    padding: 15px;
+    font-size: 0.9em;
+    color: #888;
+    border-top: 2px solid #333;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>ASTRO-MAP</h1>
+  <p>Profil interferencji 2MASS + ROSAT – analiza struktury Galaktyki</p>
+</header>
+
+<section>
+  <h2>Wizualizacja rzeczywistego profilu interferencji 2MASS + ROSAT</h2>
+
+  <p>
+    Poniższy wykres przedstawia matematyczne odzwierciedlenie symetrii północ–południe
+    oraz punktu skrętu (struktury nieskończoności &infin;) opisanego w projekcie
+    <strong>astro-map</strong>.
+  </p>
+
+  <img src="interference_profile.png" alt="Profil interferencji 2MASS + ROSAT">
+
+  <!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Symulator Układu Słonecznego & Geometrii Pól</title>
+<style>
+    :root {
+        --bg-color: #08080c;
+        --panel-bg: #121218;
+        --accent-sun: #ff9f43;
+        --accent-earth: #4ea3ff;
+        --accent-matrix: #10b981;
+        --text-color: #eee;
+        --text-muted: #a0aec0;
+    }
+
+    body { 
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; 
+        background: var(--bg-color); 
+        color: var(--text-color); 
+        padding: 20px; 
+        margin: 0;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    .simulation-panel {
+        width: 100%;
+        max-width: 850px;
+        background: var(--panel-bg);
+        padding: 25px;
+        border-radius: 12px;
+        border: 1px solid #232d3f;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+    }
+
+    h1 {
+        font-size: 24px;
+        font-weight: 600;
+        margin-top: 0;
+        margin-bottom: 5px;
+        color: #fff;
+        letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+        font-size: 14px;
+        color: var(--text-muted);
+        margin-bottom: 20px;
+    }
+
+    #canvas-container {
+        position: relative;
+        width: 100%;
+        background: #020205;
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 20px;
+        border: 1px solid #1a2333;
+    }
+
+    canvas {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+
+    .controls {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+        margin-bottom: 25px;
+    }
+
+    @media (min-width: 640px) {
+        .controls {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+    }
+
+    .control-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .control-group label {
+        font-size: 11px;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+    }
+
+    input[type=range] {
+        width: 100%;
+        background: #1e293b;
+        accent-color: var(--accent-earth);
+        cursor: pointer;
+    }
+
+    /* Sekcja Telemetrii */
+    .telemetry-board {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 15px;
+        background: #050508;
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid #1a2333;
+    }
+
+    .telemetry-item {
+        display: flex;
+        flex-direction: column;
+        border-left: 2px solid #2d3748;
+        padding-left: 10px;
+    }
+
+    .telemetry-item.active-matrix {
+        border-left-color: var(--accent-matrix);
+    }
+
+    .telemetry-label {
+        font-size: 11px;
+        color: var(--text-muted);
+        text-transform: uppercase;
+    }
+
+    .telemetry-value {
+        font-family: "Courier New", Courier, monospace;
+        font-size: 17px;
+        font-weight: bold;
+        color: #fff;
+        margin-top: 4px;
+    }
+</style>
+</head>
+<body>
+
+<div class="simulation-panel">
+    <h1>Koniunkcja Układu Słonecznego: Silnik Solarny</h1>
+    <div class="subtitle">Wizualizacja orbit jako punktów rezonansowych w uniwersalnej geometrii pola pola makro.</div>
+    
+    <div id="canvas-container">
+        <canvas id="solarCanvas" width="800" height="500"></canvas>
+    </div>
+    
+    <div class="controls">
+        <div class="control-group">
+            <label for="warpSlider">Warp (Prędkość czasu)</label>
+            <input type="range" id="warpSlider" min="0" max="4" step="0.05" value="1">
+        </div>
+        <div class="control-group">
+            <label for="zoomSlider">Skalowanie Układu (Zoom)</label>
+            <input type="range" id="zoomSlider" min="0.5" max="2" step="0.05" value="1">
+        </div>
+        <div class="control-group">
+            <label for="matrixSlider">Intensywność Matrycy Pól</label>
+            <input type="range" id="matrixSlider" min="0" max="100" step="1" value="30">
+        </div>
+    </div>
+    
+    <div class="telemetry-board">
+        <div class="telemetry-item">
+            <span class="telemetry-label">Równowaga Heliosfery</span>
+            <span class="telemetry-value" id="telEquilibrium">100.00%</span>
+        </div>
+        <div class="telemetry-item active-matrix">
+            <span class="telemetry-label">Rezonans Skalarny</span>
+            <span class="telemetry-value" id="telResonance">0.00 Hz</span>
+        </div>
+        <div class="telemetry-item">
+            <span class="telemetry-label">Epoka Koniunkcji</span>
+            <span class="telemetry-value" id="telEpoch">0.00 lat</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    const canvas = document.getElementById('solarCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Kontrolki
+    const warpSlider = document.getElementById('warpSlider');
+    const zoomSlider = document.getElementById('zoomSlider');
+    const matrixSlider = document.getElementById('matrixSlider');
+    
+    // Telemetria
+    const telEquilibrium = document.getElementById('telEquilibrium');
+    const telResonance = document.getElementById('telResonance');
+    const telEpoch = document.getElementById('telEpoch');
+
+    let time = 0;
+
+    // Dane ciał niebieskich (promienie orbit i prędkości zharmonizowane wizualnie)
+    const planets = [
+        { name: 'Merkury', distance: 50, size: 3, speed: 0.04, color: '#94a3b8', angle: 0 },
+        { name: 'Wenus', distance: 80, size: 5.5, speed: 0.015, color: '#eab308', angle: 1.2 },
+        { name: 'Ziemia', distance: 120, size: 6, speed: 0.01, color: '#3b82f6', angle: 2.5 },
+        { name: 'Mars', distance: 160, size: 4.5, speed: 0.008, color: '#ef4444', angle: 0.5 },
+        { name: 'Jowisz', distance: 220, size: 14, speed: 0.002, color: '#f97316', angle: 4.1 },
+        { name: 'Saturn', distance: 280, size: 11, speed: 0.0009, color: '#facc15', angle: 1.8, hasRings: true },
+        { name: 'Uran', distance: 330, size: 8, speed: 0.0004, color: '#22d3ee', angle: 3.3 },
+        { name: 'Neptun', distance: 380, size: 7.5, speed: 0.0002, color: '#6366f1', angle: 5.0 }
+    ];
+
+    function drawSimulation() {
+        // Pobranie wartości wejściowych
+        const timeWarp = parseFloat(warpSlider.value);
+        const zoom = parseFloat(zoomSlider.value);
+        const matrixIntensity = parseFloat(matrixSlider.value) / 100;
+
+        // Krok czasowy
+        time += 0.01 * timeWarp;
+
+        // Czyszczenie ekranu z efektem głębi kosmicznej
+        ctx.fillStyle = 'rgba(2, 2, 5, 0.2)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+
+        // --- DYNAMICZNA TELEMETRIA ---
+        const epochYears = time / (Math.PI * 2);
+        const resonanceCalc = 14.20 + (matrixIntensity * 72.4) + (Math.sin(time * 0.1) * 0.15);
+        const equilibriumCalc = 100 - (timeWarp * 0.4) + (Math.cos(time * 0.5) * 0.05);
+
+        telEpoch.innerText = epochYears.toFixed(2) + " j.z.";
+        telResonance.innerText = resonanceCalc.toFixed(2) + " GHz";
+        telEquilibrium.innerText = Math.min(100, equilibriumCalc).toFixed(2) + "%";
+
+        // --- RYSOWANIE MATRYCY PÓL (Niewidzialna geometria falowa łącząca układ) ---
+        if (matrixIntensity > 0) {
+            ctx.strokeStyle = `rgba(16, 185, 129, ${matrixIntensity * 0.15})`;
+            ctx.lineWidth = 1;
+            
+            // Nakładanie siatki potrójnej struktury falowej od środka układu
+            for (let i = 0; i < 3; i++) {
+                ctx.beginPath();
+                const offset = i * (Math.PI * 2 / 3) + time * 0.2;
+                for (let r = 10; r < 400 * zoom; r += 4) {
+                    const waveAngle = (r * 0.02) + offset;
+                    const x = centerX + r * Math.cos(waveAngle);
+                    const y = centerY + r * Math.sin(waveAngle);
+                    if (r === 10) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+            }
+        }
+
+        // --- CENTRALNY SILNIK: SŁOŃCE ---
+        const sunRadius = 24 * zoom;
+        const sunGlow = ctx.createRadialGradient(centerX, centerY, 2, centerX, centerY, sunRadius * 2.5);
+        sunGlow.addColorStop(0, '#ffffff');
+        sunGlow.addColorStop(0.2, '#f97316');
+        sunGlow.addColorStop(0.6, 'rgba(239, 68, 68, 0.3)');
+        sunGlow.addColorStop(1, 'transparent');
+
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, sunRadius * 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = sunGlow;
+        ctx.fill();
+
+        // --- ORBITY I PLANETY ---
+        planets.forEach(planet => {
+            const currentDistance = planet.distance * zoom;
+            
+            // 1. Rysowanie linii orbity (jako linii strumienia pola)
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, currentDistance, 0, Math.PI * 2);
+            ctx.strokeStyle = matrixIntensity > 0 
+                ? `rgba(16, 185, 129, ${0.05 + matrixIntensity * 0.15})` 
+                : 'rgba(255, 255, 255, 0.03)';
+            ctx.lineWidth = matrixIntensity > 0.5 ? 1.5 : 1;
+            ctx.stroke();
+
+            // Aktualizacja pozycji kątowej planety na bazie jej prędkości i warp czasu
+            planet.angle += planet.speed * timeWarp * 0.5;
+            
+            const planetX = centerX + currentDistance * Math.cos(planet.angle);
+            const planetY = centerY + currentDistance * Math.sin(planet.angle);
+
+            // 2. Wiązki rezonansowe łączące planetę bezpośrednio ze Słońcem (gdy aktywna matryca)
+            if (matrixIntensity > 0.1) {
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.lineTo(planetX, planetY);
+                ctx.strokeStyle = `rgba(16, 185, 129, ${matrixIntensity * 0.25 * Math.sin(time + planet.speed)})`;
+                ctx.lineWidth = 0.8;
+                ctx.stroke();
+            }
+
+            // 3. Rysowanie samej planety
+            ctx.beginPath();
+            ctx.arc(planetX, planetY, planet.size * (zoom * 0.8 + 0.2), 0, Math.PI * 2);
+            ctx.fillStyle = planet.color;
+            ctx.fill();
+
+            // Efekt delikatnej poświaty/atmosfery wokół planety
+            ctx.beginPath();
+            ctx.arc(planetX, planetY, planet.size * (zoom * 0.8 + 0.2) + 2, 0, Math.PI * 2);
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+
+            // Specjalny warunek dla pierścieni Saturna
+            if (planet.hasRings) {
+                ctx.beginPath();
+                ctx.ellipse(planetX, planetY, planet.size * 2 * zoom, planet.size * 0.6 * zoom, -0.2, 0, Math.PI * 2);
+                ctx.strokeStyle = 'rgba(234, 204, 21, 0.5)';
+                ctx.lineWidth = 2 * zoom;
+                ctx.stroke();
+            }
+        });
+
+        requestAnimationFrame(drawSimulation);
+    }
+
+    // Start pętli
+    drawSimulation();
+</script>
+
+</body>
+</html>
