@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<title>D(t) vs Ω(t) vs D(t+1)</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  .viz-root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --surface-2:      #f3f2ef;
+    --border:         #e2e0da;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #7a7973;
+    --accent-red:     #e34948;
+    font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) .viz-root {
+      color-scheme: dark;
+      --surface-1:      #1a1a19;
+      --surface-2:      #232320;
+      --border:         #35342f;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #8f8e85;
+      --accent-red:     #e66767;
+    }
+  }
+  :root[data-theme="dark"] .viz-root {
+    color-scheme: dark;
+    --surface-1:      #1a1a19;
+    --surface-2:      #232320;
+    --border:         #35342f;
+    --text-primary:   #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted:     #8f8e85;
+    --accent-red:     #e66767;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--surface-1); color: var(--text-primary); }
+  .viz-root { max-width: 1180px; margin: 0 auto; padding: 28px 20px 40px; }
+  h1 { font-size: 19px; font-weight: 600; margin: 0 0 4px; }
+  .sub { color: var(--text-secondary); font-size: 13.5px; line-height: 1.5; margin: 0 0 4px; max-width: 900px; }
+  .frozen { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-secondary);
+            background: var(--surface-2); border: 1px solid var(--border); border-radius: 6px;
+            padding: 4px 9px; margin: 10px 0 22px; }
+  .frozen b { color: var(--text-primary); }
+  .panels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; overflow-x: auto; }
+  .panel { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
+  .panel h2 { font-size: 13.5px; font-weight: 600; margin: 0 0 2px; }
+  .panel .range { font-size: 11px; color: var(--text-muted); margin: 0 0 10px; }
+  svg.grid { width: 100%; height: auto; display: block; overflow: visible; }
+  .legend { display: flex; align-items: center; gap: 6px; margin-top: 10px; font-size: 10.5px; color: var(--text-muted); }
+  .legend .bar { flex: 1; height: 8px; border-radius: 4px;
+    background: linear-gradient(90deg, #cde2fb, #86b6ef, #3987e5, #256abf, #0d366b); }
+  .keyrow { display: flex; gap: 16px; flex-wrap: wrap; margin: 18px 2px 0; font-size: 11.5px; color: var(--text-secondary); }
+  .keyrow .k { display: flex; align-items: center; gap: 6px; }
+  .swatch-solid { width: 12px; height: 12px; border-radius: 3px; border: 2px solid var(--accent-red); background: transparent; }
+  .swatch-dash  { width: 12px; height: 12px; border-radius: 3px; border: 2px dashed var(--text-primary); background: transparent; }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 26px; }
+  .stat { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
+  .stat .label { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+  .stat .value { font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .stat .note { font-size: 11px; color: var(--text-secondary); margin-top: 3px; }
+  .verdict { margin-top: 22px; font-size: 13.5px; line-height: 1.6; color: var(--text-primary);
+             border-left: 3px solid var(--accent-red); padding: 4px 0 4px 14px; }
+  #tip { position: fixed; pointer-events: none; background: var(--text-primary); color: var(--surface-1);
+         font-size: 11.5px; padding: 5px 8px; border-radius: 5px; display: none; z-index: 10;
+         font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .foot { margin-top: 20px; font-size: 11px; color: var(--text-muted); }
+</style>
+
+<div class="viz-root">
+  <h1>D(t) vs Ω(t) vs D(t+1) — czy Ω trafia w prawdziwe hotspoty?</h1>
+  <p class="sub">Siatka 10×10, ziarno #<span id="seedNo"></span>, po <span id="burnNo"></span> krokach rozgrzewki, jeden krok naprzód. Każdy panel skalowany do WŁASNEGO zakresu (są na różnych skalach — Ω zawiera dodatkowo |rezonans|) — liczy się wzór przestrzenny, nie porównanie bezwzględnych kolorów między panelami.</p>
+  <div class="frozen">🧊 rezonans / Ω: <b>eksperymentalne, niezwalidowane</b> — rdzeń to D(t)→D(t+1)</div>
+
+  <div class="panels">
+    <div class="panel">
+      <h2>D(t) — defekt teraz</h2>
+      <p class="range" id="rangeD"></p>
+      <svg class="grid" viewBox="0 0 220 220" id="gridD"></svg>
+      <div class="legend"><span>min</span><div class="bar"></div><span>max</span></div>
+    </div>
+    <div class="panel">
+      <h2>Ω(t) — "predykcja stabilności"</h2>
+      <p class="range" id="rangeOmega"></p>
+      <svg class="grid" viewBox="0 0 220 220" id="gridOmega"></svg>
+      <div class="legend"><span>min</span><div class="bar"></div><span>max</span></div>
+    </div>
+    <div class="panel">
+      <h2>D(t+1) — co się naprawdę stało</h2>
+      <p class="range" id="rangeD1"></p>
+      <svg class="grid" viewBox="0 0 220 220" id="gridD1"></svg>
+      <div class="legend"><span>min</span><div class="bar"></div><span>max</span></div>
+    </div>
+  </div>
+
+  <div class="keyrow">
+    <div class="k"><span class="swatch-solid"></span> top‑10 rzeczywistych hotspotów w D(t+1)</div>
+    <div class="k"><span class="swatch-dash"></span> top‑10 wg tego panelu (D(t) lub Ω(t)) — przenieś okiem na panel D(t+1), żeby zobaczyć trafienia</div>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="label">Spearman ρ — D(t) → D(t+1)</div>
+      <div class="value" id="rhoD"></div>
+      <div class="note">p&lt;0.001</div>
+    </div>
+    <div class="stat">
+      <div class="label">Spearman ρ — Ω(t) → D(t+1)</div>
+      <div class="value" id="rhoOmega"></div>
+      <div class="note" id="pOmega"></div>
+    </div>
+    <div class="stat">
+      <div class="label">Top‑10 trafień — D(t)</div>
+      <div class="value" id="precD"></div>
+      <div class="note">baza losowa: 1/10</div>
+    </div>
+    <div class="stat">
+      <div class="label">Top‑10 trafień — Ω(t)</div>
+      <div class="value" id="precOmega"></div>
+      <div class="note">baza losowa: 1/10</div>
+    </div>
+  </div>
+
+  <p class="verdict">D(t) trafia niemal idealnie w D(t+1) — bo faza w jednym kroku ledwo się rusza, to trywialna
+    autokorelacja wolno zmiennej wielkości, nie predykcja. Ω, mimo że rzekomo "przewiduje hotspoty dekoherencji",
+    trafia w top‑10 tylko odrobinę lepiej niż czysty przypadek (3/10 vs 1/10 losowo) — i psuje sygnał, który samo
+    gołe D(t) już miało (8/10). Reguła na przyszłość: dopóki jakiś operator nie poprawi ρ/precyzji WZGLĘDEM
+    samego D(t)→D(t+1), nie wchodzi do rdzenia.</p>
+
+  <p class="foot">Dane z testu empirycznego w tej rozmowie (test_omega_prediction.py, run_check odpowiednik dla siatki kwantowej) — kod TIMDRQuantumLattice użytkownika 1:1, bez modyfikacji logiki.</p>
+</div>
+<div id="tip"></div>
+
+<script>
+const DATA = {"D_t": [[0.00967679280375957, 0.009755733895550825, 0.009827048676491479, 0.009830501427392443, 0.009783689272374045, 0.009713106962353842, 0.00967795620357549, 0.009761434449181091, 0.009833320569960197, 0.009861807252691944], [0.009759363432979461, 0.009841107247438776, 0.009888430294629852, 0.009885684873666476, 0.009870853775238527, 0.009850466141433726, 0.00981868552303454, 0.009839478427228023, 0.00987112390349759, 0.00988389675571517], [0.009912363194120047, 0.009951388250688909, 0.009953578894639084, 0.009939178795027051, 0.009944130504884994, 0.009956403587690817, 0.009932309853994544, 0.009903165926024676, 0.00989467234643528, 0.009898549932654446], [0.009978441129161492, 0.009985420640057483, 0.009973555419304857, 0.009956299983745302, 0.009957149451429429, 0.009966959590763255, 0.009953174518199524, 0.00992827005880401, 0.009916277990678296, 0.009922613058321246], [0.009986646165937951, 0.009986281729654788, 0.009973220300518174, 0.009956288419543336, 0.009939817139783595, 0.009946246778125549, 0.009960275958211522, 0.009970909689670166, 0.009970703929345789, 0.00997113297049643], [0.009965032011033088, 0.009964437143007878, 0.009961962343612667, 0.009951436098916392, 0.009929005540162749, 0.009933737576440692, 0.009981005694538723, 0.009999838247742051, 0.009999766897404479, 0.009998589416637957], [0.00988191882133984, 0.00987976399143303, 0.009913707303834406, 0.009931286384310414, 0.009916826020096978, 0.00993030719128549, 0.009993571904755336, 0.009974025864734245, 0.009983612180405162, 0.009999738394710033], [0.009703354368146545, 0.009675576611743855, 0.009799474867103752, 0.009897674325644357, 0.009912477874437102, 0.009923885177992217, 0.00998803897110497, 0.009990284091412059, 0.009999890970660707, 0.009989691365563982], [0.009477419853126364, 0.009398242755842284, 0.009645560883882577, 0.009857058873074583, 0.009916694232239117, 0.009929761460255121, 0.009951009464802315, 0.009972197720468555, 0.009942056153197003, 0.009915203408885616], [0.0094062405716445, 0.009373474568012711, 0.009605071296228004, 0.009837349686200354, 0.00992922115753912, 0.009950722877795982, 0.009942984230163298, 0.00991714413472079, 0.0098733349269896, 0.009860222127371974]], "Omega_t": [[0.013104695634229809, 0.011247264070727583, 0.009939829759542215, 0.010069294287924531, 0.011108121186101966, 0.012524237704324672, 0.013467812059034811, 0.011090788412889753, 0.009915895255169145, 0.00998609588391773], [0.012876804522146998, 0.010454795025320322, 0.010249094451452513, 0.00989231493530283, 0.009993933061582059, 0.010037384377710326, 0.010803805771722725, 0.010041615086388104, 0.010300455014737498, 0.010288249681317394], [0.010356491118578413, 0.011621800515209531, 0.011095563479967641, 0.010079910156675215, 0.010799898127728089, 0.012530993264920794, 0.011295806397763198, 0.009999189355871558, 0.010120132947643109, 0.010078689492823777], [0.011350088071791397, 0.01182089807312245, 0.010627454823476754, 0.010077731578953482, 0.010455272826336934, 0.011499700714109412, 0.010440572483498192, 0.010866055979979545, 0.011211138910693821, 0.010769603382650523], [0.011541859200671968, 0.01132895969376608, 0.01030091034306588, 0.009979905567154244, 0.010688852335566008, 0.010433796307273582, 0.010414532297537242, 0.010603225792514197, 0.010753150672799455, 0.010309612782021927], [0.01126223882642165, 0.010991167699723674, 0.01092760105824511, 0.010524835943849013, 0.010536763397627939, 0.011383582897783451, 0.010282571804741115, 0.012043988525960194, 0.011442888902322814, 0.010383600512645027], [0.010601222825843493, 0.009983856460611328, 0.010776339908069647, 0.010759216863082411, 0.01064692987269103, 0.011654112000046008, 0.010322809222550312, 0.015401103088158565, 0.01343816509699423, 0.01088802249933027], [0.009750494473737348, 0.011500105224454231, 0.009931732278508975, 0.011069248125655287, 0.010030779870337818, 0.01181877629566142, 0.010452980630219834, 0.01556441324140678, 0.011761027914103384, 0.010583464905665103], [0.010642306146460731, 0.01418867407369748, 0.011336043694531119, 0.010928610990515583, 0.010483013910678718, 0.010514789601173238, 0.01113032467019295, 0.010144221515313084, 0.011723076836649502, 0.012263405034553303], [0.010010792194094243, 0.01239260514441106, 0.011019217802676194, 0.010786978741615388, 0.01166061936758706, 0.011501702807811522, 0.010164657459708834, 0.011440427843866837, 0.012342417798618827, 0.012116882515608027]], "D_t1": [[0.009692990861933173, 0.009762908440614674, 0.009827491802623132, 0.00983083682294277, 0.009785939639492886, 0.009723686240275174, 0.009693962881001978, 0.009768265307658184, 0.009832961908587366, 0.009858026370098562], [0.009767020091875408, 0.009841539859607104, 0.009885354596914968, 0.00988066278003812, 0.009867502169236174, 0.009847303887979568, 0.009819641341892317, 0.009836464900571062, 0.009867052068346708, 0.00987874863737849], [0.00990733797171149, 0.009945552834508124, 0.009946618229694795, 0.009935014274254082, 0.009938650602259272, 0.009948447284344455, 0.009925485523068697, 0.009898513428526776, 0.00989046083135807, 0.009895016738551126], [0.009972278465413447, 0.009980194617542924, 0.009968216438609177, 0.009950726889317132, 0.00995248101969601, 0.009960265243465674, 0.009947858862836506, 0.009925161079636776, 0.009914082747789777, 0.009919213821651193], [0.009981567971901141, 0.00998124996196662, 0.009968520266993719, 0.009950321417429879, 0.009935824257196075, 0.009942450987384903, 0.009955559856703627, 0.009966516424112217, 0.009966769018518638, 0.009966993753358688], [0.009958546251433565, 0.009958681715898565, 0.009956610103677866, 0.009946005675038307, 0.009924224225159773, 0.009931716350494914, 0.009976508553014421, 0.00999979890294567, 0.009999828900578598, 0.009996625795280762], [0.009877541586746977, 0.009877528480612546, 0.009907354785282985, 0.00992425231882738, 0.009912799628248113, 0.009927384013673097, 0.009990313145593864, 0.009986113155223264, 0.009991390032259172, 0.009999945129666747], [0.009706735712175368, 0.009689952526049948, 0.009798328854613361, 0.009891278313618272, 0.00990707868170848, 0.00992231192852768, 0.00998431397954269, 0.009996658160317399, 0.00999974164251421, 0.009986686615606713], [0.009503198126123519, 0.009438540945083352, 0.009659053105822657, 0.009854229381920116, 0.009912392156904277, 0.009925606199099409, 0.009947316840736516, 0.009966792240146715, 0.009938792229342347, 0.0099146085658406], [0.009430602198686612, 0.009409406269657406, 0.009621189822916976, 0.009832338986431814, 0.009921462894557004, 0.009944555077238175, 0.009937013202146912, 0.009914583118305306, 0.009875550124062622, 0.009861518103407562]], "top_omega_pred": [0, 5, 6, 10, 25, 67, 68, 77, 81, 91], "top_D_pred": [40, 57, 58, 59, 66, 69, 76, 77, 78, 79], "top_actual": [57, 58, 59, 66, 67, 68, 69, 77, 78, 79], "rho_omega": 0.12153615361536153, "rho_D": 0.9986078607860784, "prec_omega": 0.3, "prec_D": 0.8, "seed": 3, "burn_in": 50, "size": 10};
+
+document.getElementById('seedNo').textContent = DATA.seed;
+document.getElementById('burnNo').textContent = DATA.burn_in;
+document.getElementById('rhoD').textContent = DATA.rho_D.toFixed(3);
+document.getElementById('rhoOmega').textContent = DATA.rho_omega.toFixed(3);
+document.getElementById('pOmega').textContent = 'p ≈ 0.23 (nieistotne)';
+document.getElementById('precD').textContent = (DATA.prec_D*10).toFixed(0) + '/10';
+document.getElementById('precOmega').textContent = (DATA.prec_omega*10).toFixed(0) + '/10';
+
+const RAMP = ['#cde2fb','#b7d3f6','#9ec5f4','#86b6ef','#6da7ec','#5598e7','#3987e5','#2a78d6','#256abf','#1c5cab','#184f95','#104281','#0d366b'];
+function colorFor(v, lo, hi) {
+  const t = hi > lo ? (v - lo) / (hi - lo) : 0.5;
+  const idx = Math.min(RAMP.length - 1, Math.max(0, t * (RAMP.length - 1)));
+  const i0 = Math.floor(idx), i1 = Math.min(RAMP.length - 1, i0 + 1), f = idx - i0;
+  const c0 = RAMP[i0], c1 = RAMP[i1];
+  const hex = (c) => [1,3,5].map(p => parseInt(c.substr(p,2),16));
+  const [r0,g0,b0] = hex(c0), [r1,g1,b1] = hex(c1);
+  const mix = (a,b) => Math.round(a + (b-a)*f);
+  return `rgb(${mix(r0,r1)},${mix(g0,g1)},${mix(b0,b1)})`;
+}
+
+function flatMinMax(grid) {
+  let lo = Infinity, hi = -Infinity;
+  for (const row of grid) for (const v of row) { if (v<lo) lo=v; if (v>hi) hi=v; }
+  return [lo, hi];
+}
+
+function idxToRC(i, size) { return [Math.floor(i/size), i%size]; }
+
+function renderGrid(svgId, grid, size, solidSet, dashSet) {
+  const svg = document.getElementById(svgId);
+  const cell = 220 / size;
+  const [lo, hi] = flatMinMax(grid);
+  let html = '';
+  for (let x = 0; x < size; x++) {
+    for (let y = 0; y < size; y++) {
+      const v = grid[x][y];
+      const idx = x*size + y;
+      const px = y*cell, py = x*cell;
+      const fill = colorFor(v, lo, hi);
+      html += `<rect x="${px}" y="${py}" width="${cell-1.2}" height="${cell-1.2}" rx="2.5" fill="${fill}"
+                data-v="${v.toFixed(5)}" data-x="${x}" data-y="${y}" class="cell"></rect>`;
+      if (solidSet.has(idx)) {
+        html += `<rect x="${px+1}" y="${py+1}" width="${cell-3.2}" height="${cell-3.2}" rx="2" fill="none"
+                  stroke="#e34948" stroke-width="1.6"></rect>`;
+      }
+      if (dashSet.has(idx)) {
+        html += `<rect x="${px+3.2}" y="${py+3.2}" width="${cell-7.6}" height="${cell-7.6}" rx="1.5" fill="none"
+                  stroke="#0b0b0b" stroke-width="1.3" stroke-dasharray="2.4 2"></rect>`;
+      }
+    }
+  }
+  svg.innerHTML = html;
+  document.getElementById('range' + svgId.replace('grid','')).textContent =
+    `zakres: ${lo.toFixed(5)} – ${hi.toFixed(5)}`;
+}
+
+const solidTrue = new Set(DATA.top_actual);
+renderGrid('gridD', DATA.D_t, DATA.size, new Set(), new Set(DATA.top_D_pred));
+renderGrid('gridOmega', DATA.Omega_t, DATA.size, new Set(), new Set(DATA.top_omega_pred));
+renderGrid('gridD1', DATA.D_t1, DATA.size, solidTrue, new Set());
+
+const tip = document.getElementById('tip');
+document.querySelectorAll('.cell').forEach(c => {
+  c.addEventListener('mousemove', (e) => {
+    tip.style.display = 'block';
+    tip.style.left = (e.clientX + 14) + 'px';
+    tip.style.top = (e.clientY + 14) + 'px';
+    tip.textContent = `(${c.dataset.x},${c.dataset.y}) = ${c.dataset.v}`;
+  });
+  c.addEventListener('mouseleave', () => { tip.style.display = 'none'; });
+});
+</script>
