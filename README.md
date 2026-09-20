@@ -1,6 +1,6 @@
-# TIMDR-Concept-Archive
+﻿# TIMDR-Concept-Archive
 
-Archiwum 16 wcześniej osobnych repozytoriów `jbackk-lang` zawierających
+Archiwum 18 wcześniej osobnych repozytoriów `jbackk-lang` zawierających
 **modele koncepcyjne / narzędzia do myślenia** związane z ekosystemem
 TIMDR — nie kod inżynieryjny, nie zwalidowane formalizmy matematyczne
 (te są w `GIA-TIMDR` i repozytoriach `TIMDR-*-Formalism`), tylko autorskie
@@ -33,6 +33,8 @@ GitHubie: patrz link przy każdej pozycji niżej.
 | [`TIV/`](TIV) | [jbackk-lang/TIV](https://github.com/jbackk-lang/TIV) | Lokalny system "tokenów" ekosystemu repo (etykiety możliwości + licznik) |
 | [`Spoleczny-Protokol-Informacyjny/`](Spoleczny-Protokol-Informacyjny) | [jbackk-lang/Spoleczny-Protokol-Informacyjny](https://github.com/jbackk-lang/Spoleczny-Protokol-Informacyjny) | TIMDERA — koncepcyjny "społeczny protokół informacyjny" |
 | [`astro-map/`](astro-map) | [jbackk-lang/astro-map](https://github.com/jbackk-lang/astro-map) | Koncepcyjna mapa struktury informacji astronomicznej |
+| [`FUNDAMENTAL-AI-MODEL-WERSJA-PRO/`](FUNDAMENTAL-AI-MODEL-WERSJA-PRO) | [jbackk-lang/FUNDAMENTAL-AI-MODEL-WERSJA-PRO-main](https://github.com/jbackk-lang/FUNDAMENTAL-AI-MODEL-WERSJA-PRO-main) | Symboliczny szkic architektury T/I/M/It/R/E (stany λ/τ/ρ) — toy-implementacje, bez sieci neuronowych, bez protokołu epistemicznego, bez danych rzeczywistych |
+| [`FAI/`](FAI) | [jbackk-lang/FAI](https://github.com/jbackk-lang/FAI) | Rozwinięcie powyższego o warstwę "psychologii" (emocje jako obiekty TIMDR) i `FundamentalExecutor` (T/I/M/It/R/FUND/E) — wagi i progi dobrane ręcznie, bez uczenia, bez testów nowego kodu i bez danych rzeczywistych |
 
 ## Czym to NIE jest
 
@@ -49,7 +51,7 @@ i nie zostały tu przeniesione.
 
 ## Status oryginałów
 
-Te 16 repozytoriów zostało scalonych tutaj z zachowaniem historii i,
+Te 18 repozytoriów zostało scalonych tutaj z zachowaniem historii i,
 po potwierdzeniu integralności, oryginały na GitHubie zostaną usunięte
 (decyzja autora) — ten katalog jest odtąd jedynym źródłem prawdy dla
 ich zawartości.
