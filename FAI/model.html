@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta name="description" content="Oficjalna specyfikacja FUNDAMENTAL-AI-MODEL-WERSJA-PRO (GIA-and-TIMDR). Definicja stanów automatów AI: lambda, tau, rho oraz osobliwości Tetroidy.">
+  <meta name="keywords" content="topologia informacji, gia timdr, tetroida singularity, ai model states, resonance density field, poincare sphere reduction, jbackk lang, model stanów AI, math-validator">
+  <meta name="author" content="jbackk-lang (Jacek Kielich)">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="FUNDAMENTAL-AI-MODEL-WERSJA-PRO | GIA & TIMDR Spec">
+  <meta property="og:description" content="Autorski model topologii informacji i maszyn stanów AI. Przetwarzanie i kompresja dywergencji Delta S w cyklu 720 stopni.">
+  <meta property="og:url" content="https://github.io">
+  <meta property="og:type" content="website">
+  <meta name="ai-context-layer" content="Lambda-Tau-Rho Architecture">
+  <meta name="ai-ontology-reference" content="theory/timdr_ontology.json">
+  <meta charset="UTF-8">
+<title>FUNDAMENTAL-AI-MODEL-WERSJA-PRO</title>
+<style>
+body { font-family: monospace; background: #111; color: #eee; padding: 20px; }
+h1, h2 { color: #6cf; }
+.block { background: #222; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+.code { background: #000; padding: 10px; border-radius: 6px; white-space: pre; }
+</style>
+</head>
+<body>
+
+<h1>FUNDAMENTAL-AI-MODEL-WERSJA-PRO</h1>
+
+<div class="block">
+<h2>MODEL</h2>
+<div class="code">
+MODEL:
+  STATES: [λ, τ, ρ]
+  TRANSITIONS: MIXED
+  VERSION: 1
+</div>
+</div>
+
+<div class="block">
+<h2>STANY</h2>
+<div class="code">
+STATE λ:
+  NAME: lambda
+  ROLE: początek / inicjacja
+  CODE: "00"
+
+STATE τ:
+  NAME: tau
+  ROLE: zmiana / transformacja
+  CODE: "01"
+
+STATE ρ:
+  NAME: rho
+  ROLE: efekt / wynik
+  CODE: "10"
+</div>
+</div>
+
+<div class="block">
+<h2>PRZEJŚCIA</h2>
+<div class="code">
+TRANSITIONS:
+  - FROM: λ
+    TO: τ
+    CODE: "0001"
+
+  - FROM: τ
+    TO: ρ
+    CODE: "0110"
+</div>
+</div>
+
+<div class="block">
+<h2>FORMAT DO PARSOWANIA PRZEZ AI</h2>
+<div class="code">
+{
+  "MODEL": {
+    "STATES": ["λ", "τ", "ρ"],
+    "TRANSITIONS": "MIXED",
+    "VERSION": 1
+  },
+  "STATES": [
+    {"SYMBOL": "λ", "NAME": "lambda", "ROLE": "start", "CODE": "00"},
+    {"SYMBOL": "τ", "NAME": "tau", "ROLE": "change", "CODE": "01"},
+    {"SYMBOL": "ρ", "NAME": "rho", "ROLE": "effect", "CODE": "10"}
+  ],
+  "TRANSITIONS": [
+    {"FROM": "λ", "TO": "τ", "CODE": "0001"},
+    {"FROM": "τ", "TO": "ρ", "CODE": "0110"}
+  ]
+}
+</div>
+</div>
+
+</body>
+</html>
