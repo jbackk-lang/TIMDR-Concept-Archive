@@ -1,5 +1,9 @@
 ﻿# TIMDR-Concept-Archive
 
+<!-- TIMDR HUB LINKS -->
+> **Ekosystem TIMDR:** [Knowledge Hub — dokumentacja i wyszukiwarka](https://jbackk-lang.github.io/TIMDR-AI-Knowledge-Base/) · [Panel badawczy](https://jbackk-lang.github.io/) · [GIA-TIMDR — źródła](https://github.com/jbackk-lang/GIA-TIMDR) · [Research AI — lokalne wyszukiwanie semantyczne](https://github.com/jbackk-lang/TIMDR-AI-Knowledge-Base). Publiczna wyszukiwarka Huba jest tekstowa; semantyczna wymaga lokalnego uruchomienia.
+<!-- /TIMDR HUB LINKS -->
+
 Archiwum 18 wcześniej osobnych repozytoriów `jbackk-lang` zawierających
 **modele koncepcyjne / narzędzia do myślenia** związane z ekosystemem
 TIMDR — nie kod inżynieryjny, nie zwalidowane formalizmy matematyczne
